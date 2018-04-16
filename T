@@ -1,0 +1,43 @@
+//Rotate on local axis´s
+
+float f = Mathf.LerpAngle(currentAngle, TargetAngle, 0.3f); // exponential falling function!
+transform.rotation = Quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y, f);
+currentAngle = myOwnSpecifiedAngle = f;
+
+// check if facing the object! 1 is directly facing, and 0 is directly opposite! 
+float dot = Vector3.Dot(transform.forward, (player.transform.position - transform.position).normalized);
+
+//Get mouse pos in world
+
+Vector3 clickPos = Vector3.one;  // clickPos must be asigned before being used
+Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+RaycastHit hit;
+
+if(Physics.Raycast(ray, out hit))
+{
+   clickPos = hit.point; // remember to use point here and not transform.position!
+}
+
+//Rotate around target on both axis with mouse movement
+
+v += Input.GetAxis("Mouse X") * cameraSpeed; // only calculate me when needed
+h += Input.GetAxis("Mouse Y") * cameraSpeed;
+h = Mathf.Clamp(h, -50, 87);
+
+if (Input.GetAxis("Mouse X") != 0 || Input.GetAxis("Mouse Y") != 0)
+{
+   Vector3 dir = new Vector3(0, 0, -distance);
+   Quaternion rot = Quaternion.Euler(h, v, 0);
+   transform.position = player.position + rot * dir;
+   transform.LookAt(player.position);
+}
+
+//Move in the forward vector of cam and ignoring the y pos
+
+Vector3 targetDirection = Camera.main.transform.forward;
+targetDirection.y = 0.0f;
+targetDirection.Normalize(); // normalize that **! always normalize if you want to move it
+rb.velocity += targetDirection * moveSpeed * Time.deltaTime;
+
+
+
