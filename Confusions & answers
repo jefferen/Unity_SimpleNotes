@@ -1,0 +1,17 @@
+Renderer rend = GetComponent<Renderer>();
+rend.material.color = Color.blue;
+
+StartCoroutine("TheCorotine", 5);  //  StartCoroutine(TheCorotine(5));
+
+IEnumerator TheCorotine (int gg)
+{
+  yield return new waitForEndFrame(); // be carefull when returning null! Safe the project plzz 
+}
+
+string me;
+float x = 49,5259259;
+me = x.ToString("F2"); 49,52
+
+
+//When working with color, the color values in the inspector goes from 0-255 but in the code it goes from 0-1! 
+//When changing color in script remember 0 = 0; 0.1f = 25.5; 1 = 255; So never say " Color myColor = new Color(255,255,255,1); "
