@@ -1,3 +1,26 @@
+// What the different classes are equal too
+
+transform.position = new vector2/3/4   
+transform.localScale = new vector2/3
+transform.rotation = quaternion // ie. transform.rotation = Quaternion.Euler(0, 0, 0);
+
+rb.velocity = vector2/3 // use rb.velocity to move objects when collision is taken into consideration
+rb.velocity.magnitude = float
+
+//in the inspector under rigidbody-Angular/Linear Drag will reduce speed over time, as it can´t be set via script
+
+// lerp and move over time
+                     // Math.f can also be used! 1 is the new destination and 0 would be the start position
+transform.position = Vector3.Lerp(transform.position, new Vector3(0,0,0), 1); 
+transform.position = Vector3.MoveTowards(transform.position, destination.transform.position, 1); moves in a straight line
+   
+// rotate over time   
+   
+Vector3 vectorTarget = target.position - transform.position;      // 2D  
+float angle = Mathf.Atan2(vectorTarget.y, vectorTarget.x) * Mathf.Rad2Deg;      
+Quaternion q = Quaternion.AngleAxis(angle, Vector3.forward);
+transform.rotation = Quaternion.RotateTowards(transform.rotation, q, Time.deltaTime * 50);
+
 //Rotate on local axis´s
 
 float f = Mathf.LerpAngle(currentAngle, TargetAngle, 0.3f); // exponential falling function!
@@ -38,6 +61,3 @@ Vector3 targetDirection = Camera.main.transform.forward;
 targetDirection.y = 0.0f;
 targetDirection.Normalize(); // normalize that **! always normalize if you want to move it
 rb.velocity += targetDirection * moveSpeed * Time.deltaTime;
-
-
-
